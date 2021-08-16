@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
+
 @Controller
 public class ApplicationUserController {
     @Autowired
@@ -43,6 +45,15 @@ public class ApplicationUserController {
         ApplicationUser user = applicationUserRepository.findById(id).get();
         m.addAttribute("user", user);
         return "profile.html";
+    }
+
+        @GetMapping("/user")
+    public String getProfile(Model m, Principal p) {
+        if (p.getName() == null){
+            return "signin.html";
+        }
+        m.addAttribute("user", applicationUserRepository.findByUsername(p.getName()));
+        return "home.html";
     }
 
 }

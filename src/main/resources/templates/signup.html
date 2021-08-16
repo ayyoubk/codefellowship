@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head th:insert="fragments :: html_head">
+
     <meta charset="UTF-8">
     <title>Sign-Up</title>
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+<div th:replace="fragments :: header"></div>
 <form method="POST" action="/signup">
 
     <label for="firstName">First Name</label>
@@ -33,5 +37,6 @@
     <button type="submit">Sign up</button>
 
 </form>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>
