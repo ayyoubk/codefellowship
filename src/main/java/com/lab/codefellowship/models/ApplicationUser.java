@@ -21,6 +21,21 @@ public class ApplicationUser implements UserDetails {
     private String dateOfBirth;
     private String bio;
 
+    @ManyToMany
+    @JoinTable(
+            name="user_follow",
+            joinColumns={@JoinColumn(name="theUser")},
+            inverseJoinColumns = {@JoinColumn(name="followingUser")}
+    )
+    List<ApplicationUser> following;
+
+    @ManyToMany(mappedBy="following")
+    List<ApplicationUser> followers;
+
+    public void addFollowing(ApplicationUser followingUser) {
+        following.add(followingUser);
+    }
+
     public ApplicationUser() {
     }
 
@@ -31,7 +46,6 @@ public class ApplicationUser implements UserDetails {
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
-
     }
     @OneToMany(mappedBy = "applicationUser")
     List<Post> posts;
@@ -121,5 +135,13 @@ public class ApplicationUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public List<ApplicationUser> getFollowing() {
+        return following;
+    }
+
+    public List<ApplicationUser> getFollowers() {
+        return followers;
     }
 }

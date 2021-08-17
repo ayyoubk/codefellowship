@@ -7,15 +7,20 @@
 
 </head>
 <div th:fragment="header">
-<body>
-<div th:replace="fragments :: header"></div>
+    <body>
+    <div th:replace="fragments :: header"></div>
 
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg" alt="Card image cap">
-    <div class="card-body">
-        <h2 th:text="${user.firstName} +' '+ ${user.lastName}"></h5>
-        <p class="card-text" th:text="${user.bio}"></p>
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top"
+             src="https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
+             alt="Card image cap">
+        <div class="card-body">
+            <h2 th:text="${user.firstName} +' '+ ${user.lastName}"></h2>
+            <p class="card-text" th:text="${user.bio}"></p>
+        </div>
     </div>
-</div>
-</body>
+    <form method="post" th:action="@{/follow/{id}(id=${user.id})}">
+        <button type="submit">Follow</button>
+    </form>
+    </body>
 </html>

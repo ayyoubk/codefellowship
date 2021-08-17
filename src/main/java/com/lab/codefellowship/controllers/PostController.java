@@ -6,6 +6,7 @@ import com.lab.codefellowship.repositories.ApplicationUserRepository;
 import com.lab.codefellowship.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -37,6 +38,13 @@ public class PostController {
         Post newPost = new Post(body, user);
         postRepository.save(newPost);
         return new RedirectView("/");
+    }
+
+    @GetMapping("/feed")
+    public String getAllPosts(Principal p, Model m){
+        ApplicationUser loginUser = applicationUserRepository.findByUsername(p.getName());
+        m.addAttribute("user",loginUser.getFollowing());
+        return "feeds.html";
     }
 
 }
