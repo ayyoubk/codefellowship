@@ -21,6 +21,8 @@ In your terminal:
 - POST requests
 - `/signup` Gets the user information and signs up the data to the database and authorize the user.
 - `/post` allows the user to add a post to his profile.
+- `/feed` show all post from following users 
+- `/follow/{id}` let user to follow other user and add them to DB
 
 
 
