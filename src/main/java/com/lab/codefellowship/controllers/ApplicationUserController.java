@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @Controller
 public class ApplicationUserController {
@@ -40,20 +41,32 @@ public class ApplicationUserController {
         applicationUserRepository.save(newUser);
         return new RedirectView("/login");
     }
+
     @GetMapping("/users/{id}")
-    public String getProfile(@PathVariable("id") Integer id, Model m) {
+    public Object getProfile(Principal p, @PathVariable("id") Integer id, Model m) {
         ApplicationUser user = applicationUserRepository.findById(id).get();
+        if (Objects.equals(user.getUsername(), p.getName())){
+            return new RedirectView("/");
+        }
         m.addAttribute("user", user);
         return "profile.html";
     }
 
-        @GetMapping("/user")
+    @GetMapping("/user")
     public String getProfile(Model m, Principal p) {
-        if (p.getName() == null){
+        if (p.getName() == null) {
             return "signin.html";
         }
         m.addAttribute("user", applicationUserRepository.findByUsername(p.getName()));
         return "home.html";
     }
 
+    @PostMapping("/follow/{id}")
+    public RedirectView followUser(Principal p,@PathVariable("id") Integer id){
+        ApplicationUser following = applicationUserRepository.findById(id).get();
+        ApplicationUser follower= applicationUserRepository.findByUsername(p.getName());
+        follower.addFollowing(following);
+        applicationUserRepository.save(follower);
+        return  new RedirectView("/users/"+id);
+    }
 }

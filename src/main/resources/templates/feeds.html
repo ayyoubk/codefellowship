@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feeds</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div th:replace="fragments :: header"></div>
+
+<div th:each="oneUser: ${user}">
+    <div  th:if="${oneUser.getPosts().size()!=0}" th:text="${oneUser.getUsername()}+'\'s posts'"></div>
+    <div th:each="post:${oneUser.getPosts()}">
+        <p th:text="${post.body}"></p>
+        <p th:text="${post.createdAt}"></p>
+        <p>===============================</p>
+    </div>
+</div>
+</body>
+</html>
